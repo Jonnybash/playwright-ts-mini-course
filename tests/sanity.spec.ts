@@ -1,12 +1,13 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
+import LoginPage from '../pages/LoginPage';
+import UserCredentials from '../helpers/USerCredentials';
+import ApplicationURL from '../helpers/ApplicationURL';
 
 test('Sanity Test', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
 
-  await page.locator('[data-test="username"]').fill('standard_user');
-  await page.locator('[data-test="password"]').click();
-  await page.locator('[data-test="password"]').fill('secret_sauce');
-  await page.locator('[data-test="login-button"]').click();
+  const loginPage = new LoginPage(page);
+  await loginPage.loginToApplication();
+  
   await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
   await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
   await page.locator('[data-test="add-to-cart-sauce-labs-bolt-t-shirt"]').click();
@@ -28,3 +29,14 @@ test('Sanity Test', async ({ page }) => {
   await page.locator('[data-test="reset-sidebar-link"]').click();
   await page.locator('[data-test="logout-sidebar-link"]').click();
 });
+
+test('Demo Test', async ( {page} ) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginToApplication(UserCredentials.LOCKED_OUT_USER, UserCredentials.USER_PASSWORD);
+});
+
+test('Demo Test2', async ( {page} ) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginToApplication(); 
+    
+}); 
